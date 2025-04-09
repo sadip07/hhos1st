@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDoS Traffic Monitor</title>
+    <meta http-equiv="refresh" content="10">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .alert {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DDoS Traffic Monitor</h1>
+        <p>Real-time network traffic visualization and attack detection</p>
+    </div>
+    
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h2>Traffic Graphs</h2>
+                <img src="/plot/traffic" alt="Traffic Graph">
+            </div>
+            
+            <div class="card">
+                <h2>Connection Monitoring</h2>
+                <img src="/plot/connections" alt="Connections Graph">
+            </div>
+            
+            <div class="card">
+                <h2>Attack Alerts</h2>
+                {% if alerts %}
+                    {% for alert in alerts %}
+                        <div class="{{ alert.level }}">
+                            <strong>{{ alert.timestamp }}</strong>: {{ alert.message }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="info">No attack alerts detected.</div>
+                {% endif %}
+            </div>
+            
+            <div class="card">
+                <h2>Current Traffic Statistics</h2>
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>Current Packet Rate</td>
+                        <td>{{ current_packets }} pkts/sec</td>
+                        <td>{% if current_packets > packet_threshold %}<span style="color: red;">⚠️ High</span>{% else %}<span style="color: green;">✓ Normal</span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Current Connection Rate</td>
+                        <td>{{ current_connections }} conn/sec</td>
+                        <td>{% if current_connections > connection_threshold %}<span style="color: red;">⚠️ High</span>{% else %}<span style="color: green;">✓ Normal</span>{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <td>Monitoring Since</td>
+                        <td colspan="2">{{ start_time }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

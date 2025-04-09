@@ -1,0 +1,13 @@
+; DDos Web Monitor Installation
+;
+; This config file is used for creating a self-extracting archive
+; with 7-Zip or similar tools
+
+Title=DDos Web Monitor Installation
+BeginPrompt=Do you want to install DDos Web Monitor?
+ExtractTitle=Extracting DDos Web Monitor...
+ExtractDialogText=Please wait while files are extracted...
+GUIMode=1
+FinishMessage=Installation completed successfully!
+
+RunProgram=start_monitor.bat 
